@@ -1,4 +1,4 @@
-/*import React, { useState } from "react";
+import React, { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 
 export default function LeadSourceTable() {
@@ -90,7 +90,7 @@ export default function LeadSourceTable() {
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-start py-10">
     <div className="w-[90%] md:w-[95%] xl:w-[90%] mx-auto bg-white rounded-lg mt-10 border border-gray-200 min-h-[600px] relative">
-      { Header }
+      {/* Header */}
       <div className="flex items-center justify-between px-8 py-4 border-b">
         <h2 className="text-2xl font-semibold text-gray-800">Lead Source</h2>
         <button
@@ -101,7 +101,7 @@ export default function LeadSourceTable() {
         </button>
       </div>
 
-      { Search Bar }
+      {/* Search Bar */}
       <div className="flex flex-col sm:flex-row justify-end items-center px-8 py-6 gap-3">
         <input
           type="text"
@@ -118,7 +118,7 @@ export default function LeadSourceTable() {
         </button>
       </div>
 
-      { Table }
+      {/* Table */}
       <div className="overflow-x-auto px-6">
         <table className="w-full border-x border-b border-gray-200 text-lg text-gray-700">
           <thead className="bg-gray-200 border-b border-gray-200">
@@ -234,7 +234,7 @@ export default function LeadSourceTable() {
               </tr>
             )}
 
-            { ✅ Delete Button Row }
+            {/* ✅ Delete Button Row */}
             <tr>
               <td colSpan="6" className="border-t py-5 px-6 text-left">
                 <button
@@ -249,10 +249,10 @@ export default function LeadSourceTable() {
         </table>
       </div>
 
-      { ✅ Add Lead Source Modal }
+      {/* ✅ Add Lead Source Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-start items-start z-50">
-          { Animation keyframes }
+          {/* Animation keyframes */}
           <style>
             {`
               @keyframes fadeSlideDown {
@@ -269,16 +269,16 @@ export default function LeadSourceTable() {
               marginLeft: "650px",
             }}
           >
-            { Header }
+            {/* Header */}
             <div className="border-b px-6 py-3 bg-white rounded-t-md">
               <h2 className="text-2xl font-semibold text-gray-800 text-center">
                 Add Lead Source
               </h2>
             </div>
 
-            { Body }
+            {/* Body */}
             <div className="px-6 py-9 bg-gray-200 flex flex-col items-start">
-  <label className="text-xl text-gray-800 font-medium mb-2">
+  <label className="text-xl text-gray-800 font-medium mb-3">
     Lead Source
   </label>
   <input
@@ -286,11 +286,12 @@ export default function LeadSourceTable() {
     placeholder="Lead Source"
     value={newSource}
     onChange={(e) => setNewSource(e.target.value)}
-    className="border border-gray-300 text-lg rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-[70%]"
+    className="border border-gray-300 text-lg rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-[80%]"
   />
 </div>
 
-            { Footer }
+
+            {/* Footer */}
             <div className="flex justify-end gap-3 px-6 py-5 bg-gray-100 border-t rounded-b-md">
               <button
                 onClick={handleAdd}
@@ -311,4 +312,4 @@ export default function LeadSourceTable() {
     </div>
     </div>
   );
-};*/
+}

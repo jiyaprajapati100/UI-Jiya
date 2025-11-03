@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/*import React, { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 
 export default function LeadStatus() {
@@ -86,7 +86,7 @@ export default function LeadStatus() {
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-start py-10">
       <div className="w-[90%] md:w-[95%] xl:w-[90%] mx-auto bg-white rounded-lg border border-gray-200 min-h-[600px] relative">
-        {/* Header */}
+        { Header }
         <div className="flex items-center justify-between px-8 py-4 border-b">
           <h2 className="text-2xl font-semibold text-gray-800">Lead Status</h2>
           <button
@@ -97,7 +97,7 @@ export default function LeadStatus() {
           </button>
         </div>
 
-        {/* Search Bar */}
+        { Search Bar }
         <div className="flex flex-col sm:flex-row justify-end items-center px-8 py-6 gap-3">
           <input
             type="text"
@@ -114,7 +114,7 @@ export default function LeadStatus() {
           </button>
         </div>
 
-        {/* Table */}
+        { Table }
         <div className="overflow-x-auto px-6">
           <table className="w-full border-x border-b border-gray-200 text-lg text-gray-700">
             <thead className="bg-gray-200 border-b border-gray-200">
@@ -155,7 +155,7 @@ export default function LeadStatus() {
                       editId === s.id ? "bg-gray-50" : ""
                     }`}
                   >
-                    {/* Checkbox */}
+                    { Checkbox }
                     <td className="border py-3 text-left px-4">
                       {index < 3 ? (
                         "--"
@@ -169,12 +169,12 @@ export default function LeadStatus() {
                       )}
                     </td>
 
-                    {/* Serial Number */}
+                    { Serial Number }
                     <td className="border py-3 text-left px-4">
                       {index + 1}
                     </td>
 
-                    {/* Lead Status */}
+                    { Lead Status }
                     <td className="border py-3 text-left px-4">
                       {editId === s.id ? (
                         <input
@@ -188,7 +188,7 @@ export default function LeadStatus() {
                       )}
                     </td>
 
-                    {/* Edit Column */}
+                    { Edit Column }
                     <td className="border py-3 text-center">
                       {editId === s.id ? (
                         <div className="flex justify-center items-center gap-2">
@@ -218,7 +218,7 @@ export default function LeadStatus() {
                       )}
                     </td>
 
-                    {/* Delete Column */}
+                    { Delete Column }
                     <td className="border py-3 text-center">
                       {s.name === "Special" ? (
                         <button
@@ -232,7 +232,7 @@ export default function LeadStatus() {
                       )}
                     </td>
 
-                    {/* View Leads */}
+                    { View Leads }
                     <td className="border py-3 text-center">
                       <button className="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded text-sm">
                         View Leads
@@ -251,7 +251,7 @@ export default function LeadStatus() {
                 </tr>
               )}
 
-              {/* Delete Button Row */}
+              { Delete Button Row }
               <tr>
                 <td colSpan="6" className="border-t py-5 px-6 text-left">
                   <button
@@ -266,7 +266,7 @@ export default function LeadStatus() {
           </table>
         </div>
 
-        {/* Modal */}
+        { Modal }
         {showModal && (
           <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-start items-start z-50">
             <style>
@@ -324,4 +324,4 @@ export default function LeadStatus() {
       </div>
     </div>
   );
-}
+}*/
