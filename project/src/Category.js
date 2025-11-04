@@ -1,4 +1,4 @@
-/*import React, { useState } from "react";
+import React, { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 
 export default function CategoryTable() {
@@ -11,56 +11,27 @@ export default function CategoryTable() {
     { id: 6, name: "Sarees" },
   ]);
 
-  const [selected, setSelected] = useState([]);
   const [editId, setEditId] = useState(null);
   const [editName, setEditName] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [newCategory, setNewCategory] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedIds, setSelectedIds] = useState([]);
 
-  // ✅ Delete Single
+  // ✅ Delete a category
   const handleDelete = (id) => {
     setCategories(categories.filter((cat) => cat.id !== id));
-    setSelected(selected.filter((sid) => sid !== id));
   };
 
-  // ✅ Delete Selected
-  const handleDeleteSelected = () => {
-    if (selected.length === 0) return;
-    const remaining = categories.filter((cat) => !selected.includes(cat.id));
-    setCategories(remaining);
-    setSelected([]);
-  };
-
-  // ✅ Select All / Unselect All
-  const handleSelectAll = () => {
-    if (selected.length === filteredCategories.length) {
-      setSelected([]);
-    } else {
-      setSelected(filteredCategories.map((cat) => cat.id));
-    }
-  };
-
-  // ✅ Select Individual
-  const handleSelect = (id) => {
-    if (selected.includes(id)) {
-      setSelected(selected.filter((sid) => sid !== id));
-    } else {
-      setSelected([...selected, id]);
-    }
-  };
-
-  // ✅ Edit Category
-  const handleEdit = (id, currentName) => {
+  // ✅ Edit category
+  const handleEdit = (id, name) => {
     setEditId(id);
-    setEditName(currentName);
+    setEditName(name);
   };
 
   const handleUpdate = (id) => {
     setCategories(
-      categories.map((cat) =>
-        cat.id === id ? { ...cat, name: editName } : cat
-      )
+      categories.map((cat) => (cat.id === id ? { ...cat, name: editName } : cat))
     );
     setEditId(null);
     setEditName("");
@@ -71,119 +42,141 @@ export default function CategoryTable() {
     setEditName("");
   };
 
-  // ✅ Add Category
+  // ✅ Add new category
   const handleAdd = () => {
-    if (newCategory.trim() === "") return;
-    const newId = categories.length
-      ? Math.max(...categories.map((s) => s.id)) + 1
-      : 1;
+    if (!newCategory.trim()) return;
+    const newId = categories.length ? Math.max(...categories.map((c) => c.id)) + 1 : 1;
     setCategories([...categories, { id: newId, name: newCategory }]);
     setNewCategory("");
     setShowModal(false);
   };
 
-  // ✅ Filtered Categories
+  // ✅ Search filter
   const filteredCategories = categories.filter((cat) =>
     cat.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // ✅ Select all
+  const handleSelectAll = () => {
+    if (selectedIds.length === filteredCategories.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(filteredCategories.map((cat) => cat.id));
+    }
+  };
+
+  // ✅ Select individual
+  const handleSelect = (id) => {
+    if (selectedIds.includes(id)) {
+      setSelectedIds(selectedIds.filter((sid) => sid !== id));
+    } else {
+      setSelectedIds([...selectedIds, id]);
+    }
+  };
+
+  // ✅ Delete selected
+  const handleDeleteSelected = () => {
+    setCategories(categories.filter((cat) => !selectedIds.includes(cat.id)));
+    setSelectedIds([]);
+  };
+
   return (
-    <div className="w-[90%] md:w-[95%] xl:w-[90%] mx-auto bg-white rounded-lg mt-10 border border-gray-200 min-h-[600px] relative">
-      { Header }
-      <div className="flex items-center justify-between px-8 py-4 border-b bg-gray-50 rounded-t-lg">
-        <h2 className="text-2xl font-semibold text-gray-800">Categories</h2>
+    <div className="w-[95%] md:w-[85%] max-w-[1600px] mx-auto bg-white rounded-md mt-10 border border-gray-200 shadow">
+      {/* Header */}
+      <div className="flex justify-between items-center px-6 py-3 border-b bg-gray-50">
+        <h2 className="text-lg font-semibold text-gray-700">Categories</h2>
         <button
           onClick={() => setShowModal(true)}
-          className="bg-blue-900 hover:bg-blue-800 text-white px-6 py-3 rounded-md text-lg md:text-lg"
+          className="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded text-sm"
         >
           Add Category
         </button>
       </div>
 
-      { Search Bar }
-      <div className="flex flex-col sm:flex-row justify-end items-center px-8 py-6 gap-3 bg-gray-50">
+      {/* Search Bar */}
+      <div className="flex justify-end items-center px-6 py-3 bg-white gap-3">
         <input
           type="text"
-          placeholder="Search Category..."
+          placeholder="Search Category"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="border rounded-md px-4 py-2.5 w-full sm:w-60 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border border-gray-300 rounded-md px-2 py-2 w-40 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
           onClick={() => setSearchQuery("")}
-          className="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded-md text-lg w-full sm:w-auto"
+          className="bg-sky-500 hover:bg-sky-600 text-white px-6 py-2 rounded-md text-sm font-medium"
         >
           Search
         </button>
       </div>
 
-      { Table }
-      <div className="overflow-x-auto px-6">
-        <table className="w-full border-x border-b border-gray-200 text-lg text-gray-700">
-          <thead className="bg-gray-200 border-b border-gray-200">
+      {/* TABLE VIEW */}
+      <div className="hidden md:block px-6 py-6 overflow-x-auto">
+        <table className="w-full border border-gray-100 text-sm">
+          <thead className="bg-gray-100 text-gray-800">
             <tr>
-              <th className="w-[7%] py-3 text-left px-4">
+              <th className="px-3 py-2 text-left w-[10%]">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 accent-blue-600"
+                  className="w-4 h-4"
                   checked={
-                    selected.length === filteredCategories.length &&
+                    selectedIds.length === filteredCategories.length &&
                     filteredCategories.length > 0
                   }
                   onChange={handleSelectAll}
                 />
               </th>
-              <th className="w-[8%] py-3 text-left font-semibold px-4">
+              <th className="px-3 py-2 text-left font-semibold tracking-wide">
                 SR. NO.
               </th>
-              <th className="w-[20%] py-3 text-left font-semibold px-4">
+              <th className="px-3 py-2 text-left font-semibold tracking-wide">
                 CATEGORY NAME
               </th>
-              <th className="w-[8%] py-3 text-center font-semibold">EDIT</th>
-              <th className="w-[10%] py-3 text-center font-semibold">DELETE</th>
-              <th className="w-[14%] py-3 text-center font-semibold">
+              <th className="px-3 py-2 text-center font-semibold tracking-wide">
+                EDIT
+              </th>
+              <th className="px-3 py-2 text-center font-semibold tracking-wide">
+                DELETE
+              </th>
+              <th className="px-3 py-2 text-center font-semibold tracking-wide">
                 VIEW LEADS
               </th>
             </tr>
           </thead>
 
-          <tbody className="text-lg">
+          <tbody>
             {filteredCategories.length > 0 ? (
               filteredCategories.map((cat, index) => (
-                <tr
-                  key={cat.id}
-                  className="hover:bg-gray-50 transition-colors duration-150"
-                >
-                  <td className="border py-3 text-left px-4">
+                <tr key={cat.id} className="hover:bg-gray-50">
+                  <td className="px-3 py-2 border text-left">
                     <input
                       type="checkbox"
-                      className="w-4 h-4 accent-blue-600"
-                      checked={selected.includes(cat.id)}
+                      className="w-4 h-4"
+                      checked={selectedIds.includes(cat.id)}
                       onChange={() => handleSelect(cat.id)}
                     />
                   </td>
-                  <td className="border py-3 text-left px-6 w-24">
+                  <td className="px-3 py-2 border text-gray-700 text-left">
                     {index + 1}
                   </td>
-                  <td className="border py-3 px-4 text-left">
+                  <td className="px-2 py-2 border text-gray-700 text-left">
                     {editId === cat.id ? (
                       <input
                         type="text"
                         value={editName}
                         onChange={(e) => setEditName(e.target.value)}
-                        className="border px-3 py-1 rounded-md w-[60%]"
+                        className="border px-2 py-1 rounded w-[70%]"
                       />
                     ) : (
                       cat.name
                     )}
                   </td>
-
-                  <td className="border py-3 text-center">
+                  <td className="px-3 py-2 border text-center">
                     {editId === cat.id ? (
-                      <div className="flex justify-center items-center gap-2">
+                      <div className="flex justify-center gap-2">
                         <button
                           onClick={() => handleUpdate(cat.id)}
-                          className="text-blue-700 font-medium"
+                          className="text-blue-600 font-medium"
                         >
                           Update
                         </button>
@@ -200,22 +193,20 @@ export default function CategoryTable() {
                         onClick={() => handleEdit(cat.id, cat.name)}
                         className="text-gray-600 hover:text-blue-600"
                       >
-                        <Pencil size={18} />
+                        <Pencil size={16} />
                       </button>
                     )}
                   </td>
-
-                  <td className="border py-3 text-center">
+                  <td className="px-3 py-2 border text-center">
                     <button
                       onClick={() => handleDelete(cat.id)}
                       className="text-gray-600 hover:text-red-600"
                     >
-                      <Trash2 size={18} />
+                      <Trash2 size={16} />
                     </button>
                   </td>
-
-                  <td className="border py-3 text-center">
-                    <button className="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded text-sm">
+                  <td className="px-3 py-2 border text-center">
+                    <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
                       View Leads
                     </button>
                   </td>
@@ -225,79 +216,179 @@ export default function CategoryTable() {
               <tr>
                 <td
                   colSpan="6"
-                  className="text-center text-gray-500 py-6 text-lg"
+                  className="text-center py-4 text-gray-500 border"
                 >
                   No results found.
                 </td>
               </tr>
             )}
-
-            { ✅ Delete Button Row }
-            <tr>
-              <td colSpan="6" className="border-t py-5 px-6 text-left">
-                <button
-                  onClick={handleDeleteSelected}
-                  className="bg-red-500 hover:bg-red-700 text-white px-12 py-2 rounded-md text-lg md:text-base"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
           </tbody>
         </table>
+
+        {/* Bottom Delete Button */}
+        <div className="flex justify-start mt-4">
+          <button
+            onClick={handleDeleteSelected}
+            disabled={selectedIds.length === 0}
+            className={`px-6 py-2 rounded ${
+              selectedIds.length === 0
+                ? "bg-red-600 text-gray-200"
+                : "bg-red-600 hover:bg-red-700 text-white"
+            }`}
+          >
+            Delete
+          </button>
+        </div>
       </div>
 
-      { ✅ Add Category Modal }
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-start items-start z-50">
-          <style>
-            {`
-              @keyframes fadeSlideDown {
-                from { opacity: 0; transform: translateY(-25px); }
-                to { opacity: 1; transform: translateY(0); }
-              }
-            `}
-          </style>
+      {/* MOBILE CARD VIEW */}
+      <div className="block md:hidden px-4 py-6">
+         {/* Header above list */}
+  <div className="bg-gray-100 border border-gray-300 rounded-md mb-5 p-3 text-left">
+    <p className="font-semibold text-gray-700 text-sm mb-1">SELECT ALL</p>
+    <input type="checkbox" className="w-4 h-4 mb-2" />
+    <p className="font-semibold text-gray-700 text-sm mt-2">VIEW LEAD</p>
+  </div>
+  
+        {filteredCategories.length > 0 ? (
+          filteredCategories.map((cat, index) => (
+            <div
+              key={cat.id}
+              className="border border-gray-300 rounded-md bg-white mb-5 overflow-hidden"
+            >
+              {/* SR NO */}
+              <div className="px-4 py-2 border-b border-gray-200">
+                <p className="text-gray-800 text-sm font-semibold text-left">
+                  SR NO :{" "}
+                  <span className="font-normal text-gray-700">
+                    {index + 1}
+                  </span>
+                </p>
+              </div>
 
-          <div
-            className="bg-white rounded-lg shadow-lg w-[90%] sm:w-[38%] h-[30%] animate-[fadeSlideDown_0.4s_ease-out]"
-            style={{
-              marginTop: "5px",
-              marginLeft: "650px",
-            }}
-          >
-            <div className="border-b px-6 py-3 bg-white rounded-t-md">
-              <h2 className="text-2xl font-semibold text-gray-800 text-center">
-                Add Category
-              </h2>
-            </div>
+              {/* CATEGORY NAME */}
+              <div className="px-4 py-2 border-b border-gray-200">
+                <p className="text-gray-800 text-sm font-semibold text-left">
+                  Category Name :{" "}
+                  {editId === cat.id ? (
+                    <input
+                      type="text"
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
+                      className="border border-gray-300 rounded px-2 py-1 text-gray-700 w-28 text-sm ml-1"
+                    />
+                  ) : (
+                    <span className="font-normal text-gray-700">{cat.name}</span>
+                  )}
+                </p>
+              </div>
 
-            { 🟦 Left-Aligned Textbox }
-            <div className="px-6 py-9 bg-gray-200">
-              <div className="flex flex-col items-start">
-                <label className="block text-xl text-gray-800 font-medium mb-2">
-                  Category Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter Category"
-                  value={newCategory}
-                  onChange={(e) => setNewCategory(e.target.value)}
-                  className="border border-gray-300 text-lg rounded-md px-3 py-2 w-[70%] focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+              {/* EDIT */}
+              <div className="px-4 py-2 border-b border-gray-200">
+                <p className="text-gray-800 text-sm font-semibold flex items-center gap-2">
+                  Edit :
+                  {editId === cat.id ? (
+                    <span className="ml-2 flex gap-3">
+                      <button
+                        onClick={() => handleUpdate(cat.id)}
+                        className="text-blue-600 font-medium text-sm"
+                      >
+                        Update
+                      </button>
+                      <span>|</span>
+                      <button
+                        onClick={handleCancel}
+                        className="text-gray-600 font-medium text-sm"
+                      >
+                        Cancel
+                      </button>
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => handleEdit(cat.id, cat.name)}
+                      className="text-gray-600 hover:text-blue-600 ml-2"
+                    >
+                      <Pencil size={16} />
+                    </button>
+                  )}
+                </p>
+              </div>
+
+              {/* DELETE */}
+              <div className="px-4 py-2 border-b border-gray-200">
+                <p className="text-gray-800 text-sm font-semibold flex items-center gap-2">
+                  Delete :
+                  <button
+                    onClick={() => handleDelete(cat.id)}
+                    className="text-gray-600 hover:text-red-600 ml-2"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </p>
+              </div>
+
+              {/* VIEW LEADS BUTTON */}
+              <div className="flex justify-start px-4 py-3 bg-white">
+                <button className="bg-red-500 hover:bg-red-600 text-white px-5 py-1.5 rounded text-sm">
+                  View Leads
+                </button>
               </div>
             </div>
+          ))
+        ) : (
+          <p className="text-center text-gray-500">No results found.</p>
+        )}
 
-            <div className="flex justify-end gap-3 px-6 py-5 bg-gray-100 border-t rounded-b-md">
+        {/* Bottom Delete Button */}
+        <div className="flex justify-start mt-4">
+          <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded">
+            Delete
+          </button>
+        </div>
+      </div>
+
+      {/* Add Category Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-start z-50">
+          <div className="bg-white rounded-lg shadow-lg w-[90%] sm:w-[500px] mt-4 animate-[slideDown_0.4s_ease-out]">
+            <style>
+              {`
+                @keyframes slideDown {
+                  from { opacity: 0; transform: translateY(-25px); }
+                  to { opacity: 1; transform: translateY(0); }
+                }
+              `}
+            </style>
+
+            <div className="border-b px-5 py-3">
+              <h3 className="text-center text-gray-800 font-semibold text-base">
+                Add Category
+              </h3>
+            </div>
+
+            <div className="p-5 bg-[#f0f2f5] text-left">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Category Name
+              </label>
+              <input
+                type="text"
+                placeholder="Category Name"
+                value={newCategory}
+                onChange={(e) => setNewCategory(e.target.value)}
+                className="border border-gray-300 rounded-md px-3 py-2 text-sm w-full max-w-[250px] focus:outline-none focus:ring-1 focus:ring-sky-500"
+              />
+            </div>
+
+            <div className="flex justify-end gap-3 px-5 pb-4 mt-3">
               <button
                 onClick={handleAdd}
-                className="bg-blue-600 hover:bg-blue-700 text-lg text-white px-6 py-2 rounded-md transition duration-200"
+                className="bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium px-5 py-2 rounded-md"
               >
                 Save
               </button>
               <button
                 onClick={() => setShowModal(false)}
-                className="border border-gray-400 text-lg text-gray-700 px-6 py-2 rounded-md hover:bg-gray-200 transition duration-200"
+                className="border border-gray-300 hover:bg-gray-100 text-gray-700 text-sm font-medium px-5 py-2 rounded-md"
               >
                 Close
               </button>
@@ -307,4 +398,4 @@ export default function CategoryTable() {
       )}
     </div>
   );
-}*/
+}
