@@ -236,7 +236,7 @@ export default function LeadSourceTable() {
       {/* MOBILE CARD VIEW */}
 <div className="block md:hidden px-4 py-6">
   {/* Header above list */}
-  <div className="bg-gray-100 border border-gray-300 rounded-md mb-5 p-3">
+  <div className="bg-gray-100 border border-gray-300 rounded-md mb-5 p-3 text-left">
     <p className="font-semibold text-gray-700 text-sm mb-1">SELECT ALL</p>
     <input type="checkbox" className="w-4 h-4 mb-2" />
     <p className="font-semibold text-gray-700 text-sm mt-2">VIEW LEAD</p>
@@ -250,14 +250,14 @@ export default function LeadSourceTable() {
       >
         {/* SR NO */}
         <div className="px-4 py-2 border-b border-gray-200">
-          <p className="text-gray-800 text-sm font-semibold">
+          <p className="text-gray-800 text-sm font-semibold text-left">
             SR NO : <span className="font-normal text-gray-700">{index + 1}</span>
           </p>
         </div>
 
         {/* LEAD SOURCE */}
         <div className="px-4 py-2 border-b border-gray-200">
-          <p className="text-gray-800 text-sm font-semibold">
+          <p className="text-gray-800 text-sm font-semibold text-left">
             Lead Source :{" "}
             {editId === source.id ? (
               <input
