@@ -83,7 +83,7 @@ export default function LeadSourceTable() {
   };
 
   return (
-    <div className="w-[95%] md:w-[85%] max-w-[1600px] mx-auto bg-white rounded-md mt-10 border border-gray-200 shadow">
+    <div className="w-[95%] md:w-[85%] max-w-[1600px] mx-auto bg-white squared-md mt-10 border border-gray-200 shadow">
       {/* Header */}
       <div className="flex justify-between items-center px-6 py-3 border-b bg-gray-50">
         <h2 className="text-lg font-semibold text-gray-700">Lead Source</h2>

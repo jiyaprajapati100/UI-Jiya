@@ -79,7 +79,7 @@ export default function LeadStatusTable() {
   };
 
   return (
-    <div className="w-[95%] md:w-[85%] max-w-[1600px] mx-auto bg-white rounded-md mt-10 border border-gray-200 shadow">
+    <div className="w-[95%] md:w-[85%] max-w-[1600px] mx-auto bg-white squard-md mt-10 border border-gray-200 shadow">
       {/* Header */}
       <div className="flex justify-between items-center px-6 py-3 border-b bg-gray-50">
         <h2 className="text-lg font-semibold text-gray-700">Lead Status</h2>
@@ -227,13 +227,12 @@ export default function LeadStatusTable() {
             )}
           </tbody>
         </table>
-
         {/* Bottom Delete Button */}
-        <div className="flex justify-start mt-4">
+        <div className="flex justify-start mt-2">
           <button
             onClick={handleDeleteSelected}
             disabled={selectedIds.length === 0}
-            className={`px-6 py-2 rounded ${
+            className={`px-12 py-2 rounded ${
               selectedIds.length === 0
                 ? "bg-red-600 text-gray-200"
                 : "bg-red-600 hover:bg-red-700 text-white"
